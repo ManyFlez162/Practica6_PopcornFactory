@@ -25,14 +25,17 @@ class MovieDetail : AppCompatActivity() {
         val bundle = intent.extras
         var ns = 0
         var id = -1;
-        var titulo = "";
+        var titulo = ""
+        var imagen2 = -1
 
         if(bundle != null){
             ns = bundle.getInt("numberSeats")
             titulo = bundle.getString("titulo")!!
+            imagen2 = bundle.getInt("image")
 
             image.setImageResource(bundle.getInt("header"))
             title.setText(bundle.getString("titulo"))
+
             description.setText(bundle.getString("sinopsis"))
             seatsLeft.setText("$ns seats available")
             id = bundle.getInt("pos")
@@ -46,6 +49,7 @@ class MovieDetail : AppCompatActivity() {
 
                 intent.putExtra("id", id)
                 intent.putExtra("name", titulo)
+                intent.putExtra("image", imagen2)
 
                 this.startActivity(intent)
 

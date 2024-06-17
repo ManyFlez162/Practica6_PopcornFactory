@@ -40,7 +40,7 @@
     <GridView
         android:id="@+id/movies_catalog"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:numColumns="3"
         android:paddingHorizontal="6dp"

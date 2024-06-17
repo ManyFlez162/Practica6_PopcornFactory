@@ -1,7 +1,10 @@
 package flores.manuel.popcornfactory
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -11,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class SeatSelection : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,18 +22,35 @@ class SeatSelection : AppCompatActivity() {
 
         val title: TextView = findViewById(R.id.titleSeats)
         var posMovie = -1
+        var selectedSeat = -1
+        val nombre = "Manuel Flores"
+        var imagen = -1
 
         val bundle = intent.extras
 
-        if(bundle != null){
+        if (bundle != null) {
             title.setText(bundle.getString("name"))
             posMovie = bundle.getInt("id")
+            imagen = bundle.getInt("image")
         }
 
         val confirm: Button = findViewById(R.id.confirm)
 
         confirm.setOnClickListener {
-            Toast.makeText(this, "Enjoy the movie!", Toast.LENGTH_LONG).show()
+            if (selectedSeat != -1) {
+                val cliente = Cliente(nombre, "Credit Card", selectedSeat)
+
+                val intent = Intent(this, Compra::class.java)
+
+                intent.putExtra("cliente", cliente)
+                intent.putExtra("nombrePelicula", title.text.toString())
+                intent.putExtra("image", imagen)
+
+                Toast.makeText(this, "Enjoy the movie!", Toast.LENGTH_LONG).show()
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please select a seat", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val row1: RadioGroup = findViewById(R.id.row1)
@@ -45,6 +66,7 @@ class SeatSelection : AppCompatActivity() {
                 row4.clearCheck()
 
                 row1.check(checkedID)
+                selectedSeat = checkedID
             }
         }
 
@@ -56,6 +78,7 @@ class SeatSelection : AppCompatActivity() {
                 row4.clearCheck()
 
                 row2.check(checkedID)
+                selectedSeat = checkedID
             }
         }
 
@@ -67,6 +90,7 @@ class SeatSelection : AppCompatActivity() {
                 row4.clearCheck()
 
                 row3.check(checkedID)
+                selectedSeat = checkedID
             }
         }
 
@@ -78,8 +102,10 @@ class SeatSelection : AppCompatActivity() {
                 row1.clearCheck()
 
                 row4.check(checkedID)
+                selectedSeat = checkedID
             }
         }
 
     }
+
 }
